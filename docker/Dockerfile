@@ -27,8 +27,9 @@ ARG USERNAME=appuser
 ARG UID=1000
 ARG GID=1000
 
-RUN groupadd -g ${GID} ${USERNAME} && \
-    useradd -m -u ${UID} -g ${GID} -s /bin/bash ${USERNAME}
+# Create group and user if they do not already exist (ignore errors if they do)
+RUN groupadd -g ${GID} ${USERNAME} 2>/dev/null || true && \
+    useradd -m -u ${UID} -g ${GID} -s /bin/bash ${USERNAME} 2>/dev/null || true
 
 WORKDIR /workspace
 
