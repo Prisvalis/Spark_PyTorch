@@ -1,4 +1,3 @@
-version: "3.8"
 services:
   pytorch-app:
     container_name: ${PROJECT_NAME:-myTorch}
