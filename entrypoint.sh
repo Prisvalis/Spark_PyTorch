@@ -50,13 +50,13 @@ fi
 # Create a venv with Python 3.12 and install dependencies
 # ------------------------------------------------------------------
 VENV_DIR="${PWD}/.venv"
-python -m venv "${VENV_DIR}"
+python3 -m venv "${VENV_DIR}"
 source "${VENV_DIR}/bin/activate"
-pip install --upgrade pip setuptools wheel
+pip3 install --upgrade pip3 setuptools wheel
 
 if [[ -f "requirements.txt" ]]; then
   echo "Installing dependencies from requirements.txt"
-  pip install -r requirements.txt
+  pip3 install -r requirements.txt
 fi
 
 # ------------------------------------------------------------------
