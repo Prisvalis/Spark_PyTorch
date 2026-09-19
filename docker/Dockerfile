@@ -28,8 +28,8 @@ ARG UID=1000
 ARG GID=1000
 
 # Create group and user if they do not already exist (ignore errors if they do)
-RUN groupadd -g ${GID} ${USERNAME} 2>/dev/null || true && \
-    useradd -m -u ${UID} -g ${GID} -s /bin/bash ${USERNAME} 2>/dev/null || true
+RUN groupmod -n appuser ubuntu && \
+    usermod -l appuser -d /home/appuser -m ubuntu
 
 WORKDIR /workspace
 
