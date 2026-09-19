@@ -1,4 +1,4 @@
-7#!/usr/bin/env bash
+ 1 | #!/usr/bin/env bash
 set -euo pipefail
 
 # Load .env if present (root of the project)
