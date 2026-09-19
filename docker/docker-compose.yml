@@ -1,18 +1,16 @@
+version: "3.8"
 services:
   pytorch-app:
     build:
       context: .
       dockerfile: Dockerfile
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: all
-              capabilities: [gpu]
-    runtime: nvidia
+    # Use device_requests (Compose v3.8+) to request GPUs
+    device_requests:
+      - driver: nvidia
+        count: all
+        capabilities: [ gpu ]
     env_file:
       - ../.env
     volumes:
-      - ./data:/workspace/data   # optional persistent data folder
-    command: ["bash"]
+      - ./data:/workspace/data # optional persistent data folder
+    command: [ "bash" ]
