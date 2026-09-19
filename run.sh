@@ -14,5 +14,4 @@ if [[ -f ".env" ]]; then
 fi
 
 echo "Starting Docker environment..."
-cd docker
 docker compose -f docker/docker-compose.yml --env-file .env config
