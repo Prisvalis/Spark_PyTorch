@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+cd docker
+docker compose down
+cd ..
+
 # Load .env if present (root of the project)
 if [[ -f ".env" ]]; then
   set -a
