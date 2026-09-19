@@ -43,18 +43,23 @@ if [[ -d "${PROJECT_NAME}/.git" ]]; then
 else
   echo "Cloning ${GIT_REPO} (branch ${GIT_BRANCH}) into ${PROJECT_NAME}"
   git clone --depth 1 --branch "${GIT_BRANCH}" "${GIT_REPO}" "${PROJECT_NAME}"
-  cd "${PROJECT_NAME}"
-fi
-
 # ------------------------------------------------------------------
-# Create a venv with Python 3.12 and install dependencies
+# Create a venv with Python 3.12 and install dependencies (search for
+# requirements.txt anywhere inside the cloned repository)
 # ------------------------------------------------------------------
 VENV_DIR="${PWD}/.venv"
-python3 -m venv "${VENV_DIR}"
+python -m venv "${VENV_DIR}"
 source "${VENV_DIR}/bin/activate"
-pip3 install --upgrade pip3 setuptools wheel
+pip install --upgrade pip setuptools wheel
 
-if [[ -f "requirements.txt" ]]; then
+# Look for a requirements.txt file anywhere under the project root.
+REQ_FILE=$(find . -type f -name "requirements.txt" -print -quit || true)
+if [[ -n "$REQ_FILE" ]]; then
+  echo "Installing dependencies from $REQ_FILE"
+  pip install -r "$REQ_FILE"
+else
+  echo "No requirements.txt found in the repository; skipping Python dependency installation."
+fi
   echo "Installing dependencies from requirements.txt"
   pip3 install -r requirements.txt
 fi
