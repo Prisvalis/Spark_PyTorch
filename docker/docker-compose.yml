@@ -2,7 +2,7 @@ services:
   pytorch-app:
     build:
       context: .
-     dockerfile: Dockerfile
+      dockerfile: Dockerfile
     deploy:
       resources:
         reservations:
@@ -12,7 +12,7 @@ services:
               capabilities: [gpu]
     runtime: nvidia
     env_file:
-       - ../.env
+      - ../.env
     volumes:
       - ./data:/workspace/data   # optional persistent data folder
     command: ["bash"]
