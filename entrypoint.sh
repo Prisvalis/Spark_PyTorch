@@ -2,10 +2,25 @@
 set -euo pipefail
 
 # ------------------------------------------------------------------
-# Required environment variables (provided via .env)
+# Load .env if it exists (this allows running the script directly on the
+# host without having to export variables manually).  We use "set -a" so
+# that all variables defined in the file become exported environment
+# variables.
 # ------------------------------------------------------------------
-:
-"${GIT_REPO:?GIT_REPO must be defined in .env}"
+if [[ -f ".env" ]]; then
+  set -a
+  # shellcheck source=/dev/null
+  source ".env"
+  set +a
+fi
+
+# ------------------------------------------------------------------
+# Required environment variables (provided via .env or already exported)
+# ------------------------------------------------------------------
+${GIT_REPO:?
+  echo "Error: GIT_REPO is not set. Please define it in .env or export it before running entrypoint.sh" >&2
+  exit 1
+}
 GIT_BRANCH="${GIT_BRANCH:-main}"
 PROJECT_NAME="${PROJECT_NAME:-$(basename -s .git "$GIT_REPO")}"
 
