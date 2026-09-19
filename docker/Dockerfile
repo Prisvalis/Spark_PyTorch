@@ -17,8 +17,9 @@ RUN apt-get update && \
         python3 \
         python3-pip && \
     rm -rf /var/lib/apt/lists/* && \
-    curl -sS https://bootstrap.pypa.io/get-pip.py | python3 - && \
-    pip3 install --no-cache-dir torch torchvision
+    # Install uv (a fast Python installer) and use it to install torch and torchvision
+    curl -LsSf https://astral.sh/uv/install.sh | sh && \
+    uv pip install --no-cache-dir torch torchvision
 
 # ------------------------------------------------------------------
 # Create a non-root user (good practice)

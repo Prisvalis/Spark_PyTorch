@@ -45,18 +45,18 @@ else
 fi
 
 # ------------------------------------------------------------------
-# Create a venv with Python 3.12 and install dependencies (search for
+# Create a venv with uv and install dependencies (search for
 # requirements.txt anywhere inside the cloned repository)
 # ------------------------------------------------------------------
 VENV_DIR="${PWD}/.venv"
-python -m venv "${VENV_DIR}"
+# Use uv to create a virtual environment and install packages efficiently
+uv venv "${VENV_DIR}"
 source "${VENV_DIR}/bin/activate"
-pip install --upgrade pip setuptools wheel
 
 REQ_FILE=$(find . -type f -name "requirements.txt" -print -quit || true)
 if [[ -n "$REQ_FILE" ]]; then
   echo "Installing dependencies from $REQ_FILE"
-  pip install -r "$REQ_FILE"
+  uv pip install -r "$REQ_FILE"
 else
   echo "No requirements.txt found in the repository; skipping Python dependency installation."
 fi
