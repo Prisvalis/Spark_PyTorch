@@ -17,12 +17,14 @@ fi
 # ------------------------------------------------------------------
 # Required environment variables (provided via .env or already exported)
 # ------------------------------------------------------------------
-${GIT_REPO:?
+if [[ -z "${GIT_REPO:-}" ]]; then
   echo "Error: GIT_REPO is not set. Please define it in .env or export it before running entrypoint.sh" >&2
   exit 1
-}
+fi
+
 GIT_BRANCH="${GIT_BRANCH:-main}"
-PROJECT_NAME="${PROJECT_NAME:-$(basename -s .git "$GIT_REPO")}"
+# If PROJECT_NAME is not supplied, derive it from the repo URL (strip .git suffix)
+PROJECT_NAME="${PROJECT_NAME:-$(basename -s .git \"$GIT_REPO\")}"
 
 # Optional GPU restriction
 if [[ -n "${GPU_IDS:-}" ]]; then
