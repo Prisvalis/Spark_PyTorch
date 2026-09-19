@@ -1,7 +1,7 @@
 # --------------------------------------------------------------
-# Base image: CUDA 12.1 runtime (public, no NGC auth required)
+# Base image: NVIDIA PyTorch image (includes CUDA, Python, and PyTorch)
 # --------------------------------------------------------------
-FROM nvidia/cuda:12.1.0-runtime-ubuntu22.04
+FROM nvcr.io/nvidia/pytorch:25.09-py3
 
 # ------------------------------------------------------------------
 # Install Python 3, pip, and PyTorch (all public packages)
@@ -10,16 +10,15 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-        software-properties-common \
-        wget \
-        git \
-        ca-certificates \
-        python3 \
-        python3-pip && \
+    software-properties-common \
+    wget \
+    git \
+    ca-certificates \
+    python3 \
+    python3-pip && \
     rm -rf /var/lib/apt/lists/* && \
-    # Install uv (a fast Python installer) and use it to install torch and torchvision
-    curl -LsSf https://astral.sh/uv/install.sh | sh && \
-    uv pip install --no-cache-dir torch torchvision
+    # Install uv (a fast Python installer) for later use in entrypoint
+    curl -LsSf https://astral.sh/uv/install.sh | sh
 
 # ------------------------------------------------------------------
 # Create a non-root user (good practice)
