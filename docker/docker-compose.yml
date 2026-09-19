@@ -4,11 +4,14 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    # Use device_requests (Compose v3.8+) to request GPUs
-    device_requests:
-      - driver: nvidia
-        count: all
-        capabilities: [ gpu ]
+    # Request GPU resources via deploy reservations (Compose v3.8)
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [ gpu ]
     env_file:
       - ../.env
     volumes:
