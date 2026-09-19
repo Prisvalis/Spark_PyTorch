@@ -4,7 +4,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    # Request GPU resources via deploy reservations (Compose v3.8)
+    tty: true
+    stdin_open: true
     deploy:
       resources:
         reservations:
@@ -15,5 +16,5 @@ services:
     env_file:
       - ../.env
     volumes:
-      - ./data:/workspace/data # optional persistent data folder
+      - ./data:/workspace/data
     command: [ "bash" ]
