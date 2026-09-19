@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   pytorch-app:
-    container_name: ${PROJECT_NAME}
+    container_name: ${PROJECT_NAME:-myTorch}
     build:
       context: .
       dockerfile: Dockerfile
